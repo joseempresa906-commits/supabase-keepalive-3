@@ -1,8 +1,8 @@
-name: Supabase Keep Alive - Proyecto 3
+name: Supabase Keep Alive - Academia
 
 on:
   schedule:
-    - cron: '0 0 * * 3,6'    # Miércoles y Sábado
+    - cron: '0 0 * * 3,6'
   workflow_dispatch:
 
 jobs:
@@ -10,9 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ping Proyecto 3
+      - name: Ping Proyecto Academia
         run: |
-          curl -f -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/" \
+          echo "=== DEBUG ==="
+          echo "URL: ${{ secrets.SUPABASE_URL }}"
+          echo "Key length: ${#SUPABASE_ANON_KEY} chars"
+          
+          curl -v -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/" \
             -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Content-Type: application/json"
+            --silent --show-error || echo "❌ Error código $?"
